@@ -17,5 +17,10 @@
         Plan
     </a>  
     <a href="/meal">Add meal</a>
+    <form class="form-inline" action="{% url 'add' %}" method='POST'>
+        {% csrf_token %}
+        <input class='form-control mr-sm-2' type='textfield' autocomplete="off" placeholder="Add Recipe" name='url'>
+        <input type='submit' class='btn btn-outline-success my-2 my-sm-0' value='Add'>
+    </form>
 </body>
 </html>
