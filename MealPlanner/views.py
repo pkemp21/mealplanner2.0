@@ -27,8 +27,19 @@ def kitchen(request):
     #list and Edit what is in the kitchen
     #Show what is missing based on plan
 
-def meal_page(request):
-    return render(request, 'meal.html')
+def meal_page(request, mealName):
+
+    # meals       = Meals.objects.filter(title=mealName)
+    # ingredients = Ingredients.objects.filter(meal=mealName)
+    # tags        = Tags.objects.filter(meal=mealName)
+
+    context = {
+        "meals"       : Meals.objects.filter(title=mealName),
+        'ingredients' : Ingredients.objects.filter(meal=mealName),
+        'tags'        : Tags.objects.filter(meal=mealName),
+    }
+
+    return render(request, 'meal.html', context)
     #Display meal specific info
     #Show what ingredients are in kitchen or not
     #
@@ -52,9 +63,15 @@ def add_meal(request):
             #Add ingredients to DB
             for x in mealData['ingredients']:
                 temp = x[0].split()
+                if len(temp) == 2:
+                    amount = temp[0]
+                    measurement = temp[1]
+                else:
+                    amount = 1
+                    measurement = temp[0]
                 ingredients = Ingredients.objects.create(
-                    amount = temp[0],
-                    measurement = temp[1],
+                    amount = amount,
+                    measurement = measurement,
                     ingredient = x[1],
                     meal = meal
                 )
@@ -68,6 +85,6 @@ def add_meal(request):
                 )
                 tag.save()
         except(IntegrityError):
-            return render(redirect, landing_page)
+            return redirect(landing_page)
             
-    return render(redirect, landing_page)
+    return redirect(landing_page)
