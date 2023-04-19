@@ -3,6 +3,8 @@
 
 <body>
     {% for x in meals %}
-        <p>{{x}}</p>
+        <a href="{% url 'meal' x.title %}" class='linkss'>
+            <p>{{x}}</p>
+        </a>
     {% endfor %}
 </body>

@@ -28,6 +28,8 @@ def get_meal(site):
     while i <3 and ingredients == []:
         ingredients = soup.find_all("p",{'class':"dsbz dsct dsfs dsbn dsbp dsbq dsft"}) #Get ingredients
         if not ingredients:
+            page = requests.get(site)
+            soup = bs(page.content, 'html.parser')
             i+=1
             time.sleep(1)
     

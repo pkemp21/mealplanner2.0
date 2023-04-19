@@ -1,4 +1,5 @@
 from sqlite3 import IntegrityError
+from turtle import title
 from django.shortcuts import render, redirect
 from .models import *
 from .functions import *
@@ -11,14 +12,14 @@ def landing_page(request):
         for x in Meals.objects.all():
             meals.append(x)
     else:
-        meals = ['test']
+        meals = ['No Meals found. Add some!']
 
     context = {
         'meals':meals
     }
 
     return render(request, 'index.html', context)
-    #Display meal optinos
+    #Display meal options
     #Allow to add meal (Hello fresh or Blue apron)
     #Link to kitchem, meals, shopping list
 
@@ -29,14 +30,11 @@ def kitchen(request):
 
 def meal_page(request, mealName):
 
-    # meals       = Meals.objects.filter(title=mealName)
-    # ingredients = Ingredients.objects.filter(meal=mealName)
-    # tags        = Tags.objects.filter(meal=mealName)
-
+    meal = Meals.objects.get(title=mealName)
     context = {
         "meals"       : Meals.objects.filter(title=mealName),
-        'ingredients' : Ingredients.objects.filter(meal=mealName),
-        'tags'        : Tags.objects.filter(meal=mealName),
+        'ingredients' : Ingredients.objects.filter(meal=meal.id),
+        'tags'        : Tags.objects.filter(meal=meal.id),
     }
 
     return render(request, 'meal.html', context)
@@ -45,7 +43,20 @@ def meal_page(request, mealName):
     #
 
 def plan_page(request):
-    return render(request, 'plan.html')
+
+    meals = []
+    if Plan.objects.all():
+        for x in Plan.objects.all():
+            meals.append(x)
+    else:
+        meals = ['No Meals found. Add some!']
+
+    context = {
+        'meals'       : meals,
+        # 'ingredients' : ingredients,
+    }
+
+    return render(request, 'plan.html', context)
 
 def add_meal(request):
 
@@ -87,4 +98,20 @@ def add_meal(request):
         except(IntegrityError):
             return redirect(landing_page)
             
+    return redirect(landing_page)
+
+def add_meal_to_plan(request, mealName):
+
+    # meal = Meals.objects.get(title=mealName)
+
+    # currentPlan = Plan.objects.get(all)
+
+    # if meal not in currentPlan:
+    #     plan = Plan.objects.create(
+    #         meal = meal
+    #     )
+
+    #     plan.save()
+    
+    
     return redirect(landing_page)

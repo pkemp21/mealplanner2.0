@@ -1,3 +1,17 @@
 {% include 'baseLayout.html' %}
-<h1>Meal Page</h1>
-<a href="/meal/">Add this meal to plan</a>
+{% for x in meals %}
+    <h1>{{x}}</h1>
+{% endfor %}
+<h4>Tags:</h4>
+{% for x in tags %}
+    <p>{{x}}</p>
+{% endfor %}
+
+<h2>Ingredients</h2>
+{% for x in ingredients %}
+    <p>{{x.amount}} {{x.measurement}} - {{x}}</p>
+{% endfor %}
+
+{% for x in meals %}
+<a href="{% url 'addToPlan' 'test' %}">Add this meal to plan</a>
+{% endfor %}
