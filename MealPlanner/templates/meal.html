@@ -13,5 +13,5 @@
 {% endfor %}
 
 {% for x in meals %}
-<a href="{% url 'addToPlan' 'test' %}">Add this meal to plan</a>
+<a href="{% url 'addToPlan' x.title %}">Add this meal to plan</a>
 {% endfor %}

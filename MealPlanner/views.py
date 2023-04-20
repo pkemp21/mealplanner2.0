@@ -64,10 +64,11 @@ def add_meal(request):
         try:
             #Add meal to DB
             mealData = get_meal(request.POST['url'])
+
             meal = Meals.objects.create(
-                title   = mealData['title'], 
+                title     = mealData['title'], 
                 imageUrl  = mealData['imgUrl'],
-                mealUrl =  mealData['mealUrl']
+                mealUrl   = mealData['mealUrl']
                 )
             meal.save()
 
@@ -102,16 +103,34 @@ def add_meal(request):
 
 def add_meal_to_plan(request, mealName):
 
-    # meal = Meals.objects.get(title=mealName)
+    mealX = Meals.objects.get(title=mealName)
 
-    # currentPlan = Plan.objects.get(all)
-
-    # if meal not in currentPlan:
-    #     plan = Plan.objects.create(
-    #         meal = meal
-    #     )
-
-    #     plan.save()
+    if Plan.objects.filter(meal=mealX).exists():
+        return(redirect(plan_page))
+    try:
+        plan = Plan.objects.create(
+            meal = mealX
+        )
+        plan.save()
+        return redirect(plan_page)
+    except(IntegrityError):
+        return redirect(plan_page)
     
+def delete(request, mealName):
+
+    mealX = Meals.objects.get(title=mealName)
+
+
+    Plan.objects.filter(meal = mealX).delete()
     
-    return redirect(landing_page)
+    return redirect(plan_page)
+
+def shopping(request):
+
+    ingredients = Ingredients.objects.all()
+
+    context = {
+        'ingredients' : ingredients
+    }
+
+    return render(request, 'shopping.html', context)

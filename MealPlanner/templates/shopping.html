@@ -1,0 +1,6 @@
+{% include 'baseLayout.html' %}
+<h1>Shopping page</h1>
+
+{% for x in ingredients %}
+    <p>{{x.amount}} {{x.measurement}} - {{x}}</p>
+{% endfor %}

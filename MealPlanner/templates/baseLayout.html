@@ -16,6 +16,9 @@
     <a href="{% url 'plan' %}">
         Plan
     </a>  
+    <a href="{% url 'shopping' %}">
+        Shopping List
+    </a>
     <form class="form-inline" action="{% url 'add' %}" method='POST'>
         {% csrf_token %}
         <input class='form-control mr-sm-2' type='textfield' autocomplete="off" placeholder="Add Recipe" name='url'>
