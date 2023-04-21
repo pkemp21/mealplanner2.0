@@ -127,10 +127,18 @@ def delete(request, mealName):
 
 def shopping(request):
 
-    ingredients = Ingredients.objects.all()
+    mealsInPlan = Plan.objects.all()
+    planIngredients = []
 
+    if mealsInPlan:
+        for x in mealsInPlan:
+            planMeal = Meals.objects.filter(title = x)
+            planIngredients.append(Ingredients.objects.filter(meal=planMeal))
+
+    # else:
+    #     planIngredients = []
     context = {
-        'ingredients' : ingredients
+        'ingredients' : planIngredients
     }
 
     return render(request, 'shopping.html', context)

@@ -58,6 +58,8 @@ def get_meal(site):
 # for x in meal:
 #     print(x,meal[x])
 
-def normalize_units():
+def normalize_units(ingredients):
+
+    #ingredients = {}
     #TODO convert ingredients to normalized value (Grams?)
     return
