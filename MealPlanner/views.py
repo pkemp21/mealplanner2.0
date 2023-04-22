@@ -64,6 +64,9 @@ def add_meal(request):
         try:
             #Add meal to DB
             mealData = get_meal(request.POST['url'])
+            if not mealData['ingredients']:
+                return redirect(landing_page)
+
 
             meal = Meals.objects.create(
                 title     = mealData['title'], 
@@ -132,13 +135,17 @@ def shopping(request):
 
     if mealsInPlan:
         for x in mealsInPlan:
-            planMeal = Meals.objects.filter(title = x)
-            planIngredients.append(Ingredients.objects.filter(meal=planMeal))
+            # planMeal = Meals.objects.get(title = x)
+            ingredients = Ingredients.objects.filter(meal=Meals.objects.get(title = x))
+            for x in ingredients:
+               planIngredients.append((x.amount, x.measurement, x.ingredient))
+    
+    consolidatedIngredients = normalize_units(planIngredients)
 
     # else:
     #     planIngredients = []
     context = {
-        'ingredients' : planIngredients
+        'ingredients' : consolidatedIngredients
     }
 
     return render(request, 'shopping.html', context)

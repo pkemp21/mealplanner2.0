@@ -59,7 +59,14 @@ def get_meal(site):
 #     print(x,meal[x])
 
 def normalize_units(ingredients):
+    consolidated = []
 
+    # if ingredient not in list, add it to list
+    # if it is in list, check if units are the same
+    # if yes, just combine amounts, if not 
+    # 1 cup = 8 ounces
+    # 1 tablespoon = .5 ounces
+    # 1 teaspoon - 0.1666 ounces
     #ingredients = {}
     #TODO convert ingredients to normalized value (Grams?)
-    return
+    return ingredients
