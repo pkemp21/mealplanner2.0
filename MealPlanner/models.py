@@ -39,3 +39,9 @@ class Plan(models.Model):
     def __str__(self):
         return str(self.meal)
 
+
+class Kitchen(models.Model):
+    item = models.CharField(max_length=64)
+
+    def __str__(self):
+        return str(self.item)

@@ -8,9 +8,16 @@ from .functions import *
 def landing_page(request):
 
     meals = []
+    plan  = []
+
+    if Plan.objects.all():
+        for x in Plan.objects.all():
+            plan.append(x)
+
     if Meals.objects.all():
         for x in Meals.objects.all():
-            meals.append(x)
+            if x in plan:
+                meals.append(x)
     else:
         meals = ['No Meals found. Add some!']
 
@@ -77,6 +84,8 @@ def add_meal(request):
 
             #Add ingredients to DB
             for x in mealData['ingredients']:
+                if x[0] == '':
+                    x[0] = '1 unit'
                 temp = x[0].split()
                 if len(temp) == 2:
                     amount = temp[0]
@@ -138,7 +147,7 @@ def shopping(request):
             # planMeal = Meals.objects.get(title = x)
             ingredients = Ingredients.objects.filter(meal=Meals.objects.get(title = x))
             for x in ingredients:
-               planIngredients.append((x.amount, x.measurement, x.ingredient))
+               planIngredients.append([x.amount, x.measurement, x.ingredient])
     
     consolidatedIngredients = normalize_units(planIngredients)
 

@@ -1,6 +1,10 @@
 {% include 'baseLayout.html' %}
 <h1>Shopping page</h1>
 
-{% for x in ingredients %}
-    <p>{{x}}</p>
+{% for x, y  in ingredients.items %}
+    <p>{% for key, value in y.items %}
+        {{value}} 
+        {% endfor %}
+        : {{x}}
+    </p>
 {% endfor %}

@@ -2,6 +2,8 @@
 <h1>Plan Page</h1>
 
 {% for x in meals %}
-<p>{{x}}</p>
-<a href = "{% url 'delete' x %}">X</a>
+<p>
+    <a href = "{% url 'delete' x %}">X</a>
+    -- {{x}}
+</p>
 {% endfor %}

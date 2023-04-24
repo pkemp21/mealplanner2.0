@@ -26,19 +26,17 @@ def get_meal(site):
     ingredients = []
     i = 0
     while i <3 and ingredients == []:
-        ingredients = soup.find_all("p",{'class':"dsbz dsct dsfs dsbn dsbp dsbq dsft"}) #Get ingredients
+        ingredients = soup.find_all("p",{'class':"dsic"}) #Get ingredients
         if not ingredients:
-            page = requests.get(site)
-            soup = bs(page.content, 'html.parser')
             i+=1
-            time.sleep(1)
+            time.sleep(5)
     
     
     try:
         i = 0
         for x in range(len(ingredients)):
             if x %2==0:
-                ingredientList.append((ingredients[x].get_text(),ingredients[x+1].get_text()))
+                ingredientList.append([ingredients[x].get_text(),ingredients[x+1].get_text()])
     except(ValueError):
         return
    
@@ -54,12 +52,25 @@ def get_meal(site):
     
     return meal
 
-# meal = get_meal('https://www.hellofresh.com/recipes/cheese-tortelloni-in-a-mushroom-sauce-5d893112c6d5102c1923bdc5')
-# for x in meal:
-#     print(x,meal[x])
-
 def normalize_units(ingredients):
-    consolidated = []
+    consolidated = {}
+
+    for x in ingredients:
+        try:
+            x[0] = uncode(x[0])
+        except(TypeError):
+            pass
+        if x[2] not in consolidated:
+            consolidated[x[2]] = {
+                'amount' : float(x[0]),
+                'measurement' : x[1]
+            }
+        else:
+            if x[1] == consolidated[x[2]]['measurement']:
+                consolidated[x[2]]['amount'] += float(x[0])
+            else:
+                consolidated[x[2]]['amount'] += float(x[0])
+                consolidated[x[2]]['measurement'] += x[1]
 
     # if ingredient not in list, add it to list
     # if it is in list, check if units are the same
@@ -69,4 +80,25 @@ def normalize_units(ingredients):
     # 1 teaspoon - 0.1666 ounces
     #ingredients = {}
     #TODO convert ingredients to normalized value (Grams?)
-    return ingredients
+    return consolidated
+
+def uncode(x):
+
+    conversions = {
+        188 : 0.25,
+        189 : 0.5,
+        190 : 0.75,
+        8531 : 0.33,
+        8532 : 0.66
+    }
+    if ord(x) in conversions:
+        return conversions[ord(x)]
+
+    return x
+
+def test_get_meal():
+    meal = get_meal('https://www.hellofresh.com/recipes/little-ears-pasta-5ab3bdd9ae08b53fd3288602')
+    for x in meal:
+        print(x,meal[x])
+
+# test_get_meal()

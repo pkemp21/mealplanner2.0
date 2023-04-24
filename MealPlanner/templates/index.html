@@ -5,6 +5,7 @@
     {% for x in meals %}
         <a href="{% url 'meal' x.title %}" class='linkss'>
             <p>{{x}}</p>
+            <img src={{x.imageUrl}} alt="Italian Trulli" style="width:25vw;height:auto;">
         </a>
     {% endfor %}
 </body>
