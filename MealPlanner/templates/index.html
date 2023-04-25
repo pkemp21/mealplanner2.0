@@ -2,10 +2,17 @@
 <h1>index Page</h1>
 
 <body>
-    {% for x in meals %}
-        <a href="{% url 'meal' x.title %}" class='linkss'>
-            <p>{{x}}</p>
-            <img src={{x.imageUrl}} alt="Italian Trulli" style="width:25vw;height:auto;">
-        </a>
-    {% endfor %}
+    <div>
+        {% for x in meals %}
+            <a href="{% url 'meal' x.title %}" class='linkss'>
+                <div class="card-columns">
+                    <div class="card">
+                        <img class="card-img-top" src={{x.imageUrl}} alt={{x}}>
+                        <div class="card-body">
+                        <h5 class="card-title">{{x}}</h5>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 </body>

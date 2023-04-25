@@ -12,11 +12,11 @@ def landing_page(request):
 
     if Plan.objects.all():
         for x in Plan.objects.all():
-            plan.append(x)
+            plan.append(x.meal)
 
     if Meals.objects.all():
         for x in Meals.objects.all():
-            if x in plan:
+            if x not in plan:
                 meals.append(x)
     else:
         meals = ['No Meals found. Add some!']
@@ -68,19 +68,21 @@ def plan_page(request):
 def add_meal(request):
 
     if request.method == "POST":
-        try:
             #Add meal to DB
             mealData = get_meal(request.POST['url'])
             if not mealData['ingredients']:
                 return redirect(landing_page)
 
-
-            meal = Meals.objects.create(
-                title     = mealData['title'], 
-                imageUrl  = mealData['imgUrl'],
-                mealUrl   = mealData['mealUrl']
-                )
-            meal.save()
+            
+            try:
+                meal = Meals.objects.create(
+                    title     = mealData['title'], 
+                    imageUrl  = mealData['imgUrl'],
+                    mealUrl   = mealData['mealUrl']
+                    )
+                meal.save()
+            except IntegrityError:
+                return redirect(landing_page)
 
             #Add ingredients to DB
             for x in mealData['ingredients']:
@@ -108,8 +110,6 @@ def add_meal(request):
                     meal = meal
                 )
                 tag.save()
-        except(IntegrityError):
-            return redirect(landing_page)
             
     return redirect(landing_page)
 

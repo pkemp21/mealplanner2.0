@@ -24,19 +24,23 @@ def get_meal(site):
 
     #Get ingredients TODO error handle
     ingredients = []
+    temp = []
     i = 0
-    while i <3 and ingredients == []:
-        ingredients = soup.find_all("p",{'class':"dsic"}) #Get ingredients
-        if not ingredients:
+    while i <3 and temp == []:
+        temp = soup.find_all("div",{'class':"fela-_1qz307e"}) #Get ingredients
+        if not temp:
             i+=1
-            time.sleep(5)
-    
-    
+            time.sleep(1)
+    for x in temp:
+        temp2 = x.find_all('p')
+        for i in temp2:
+            ingredients.append(i.text)
+
     try:
         i = 0
         for x in range(len(ingredients)):
             if x %2==0:
-                ingredientList.append([ingredients[x].get_text(),ingredients[x+1].get_text()])
+                ingredientList.append([ingredients[x],ingredients[x+1]])
     except(ValueError):
         return
    
@@ -102,3 +106,8 @@ def test_get_meal():
         print(x,meal[x])
 
 # test_get_meal()
+
+# dscq dscv dsic dsaz dsbb dsbc dsid
+# dsbz dsct dsfs dsbn dsbp dsbq dsft
+# dscq dscv dsic dsaz dsbb dsbc dsid
+# dsbz dsct dsfs dsbn dsbp dsbq dsft
