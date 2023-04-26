@@ -4,7 +4,7 @@ from django.db.models.fields.related import ForeignKey
 
 class Meals(models.Model):
     title            = models.CharField(max_length=120, unique=True)
-    imageUrl        = models.URLField(null=True)
+    imageUrl         = models.URLField(null=True)
     # same_ingredients = models.IntegerField(default=0)
     # dishType         = models.CharField(max_length=64, null=True)
     # servingSize      = models.CharField(max_length=64, null=True)

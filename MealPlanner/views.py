@@ -1,5 +1,4 @@
 from sqlite3 import IntegrityError
-from turtle import title
 from django.shortcuts import render, redirect
 from .models import *
 from .functions import *
@@ -39,7 +38,7 @@ def meal_page(request, mealName):
 
     meal = Meals.objects.get(title=mealName)
     context = {
-        "meals"       : Meals.objects.filter(title=mealName),
+        "meal"        : Meals.objects.get(title=mealName),
         'ingredients' : Ingredients.objects.filter(meal=meal.id),
         'tags'        : Tags.objects.filter(meal=meal.id),
     }
@@ -52,15 +51,11 @@ def meal_page(request, mealName):
 def plan_page(request):
 
     meals = []
-    if Plan.objects.all():
-        for x in Plan.objects.all():
-            meals.append(x)
-    else:
-        meals = ['No Meals found. Add some!']
+    for x in Plan.objects.all():
+        meals.append(x)
 
     context = {
-        'meals'       : meals,
-        # 'ingredients' : ingredients,
+        'meals' : meals,
     }
 
     return render(request, 'plan.html', context)

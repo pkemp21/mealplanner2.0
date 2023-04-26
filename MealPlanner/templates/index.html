@@ -1,18 +1,20 @@
 {% include 'baseLayout.html' %}
-<h1>index Page</h1>
-
 <body>
     <div>
-        {% for x in meals %}
-            <a href="{% url 'meal' x.title %}" class='linkss'>
-                <div class="card-columns">
-                    <div class="card">
-                        <img class="card-img-top" src={{x.imageUrl}} alt={{x}}>
-                        <div class="card-body">
-                        <h5 class="card-title">{{x}}</h5>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
+        <div class="container">   
+            <div class="row row-cols-2">
+                {% for x in meals %}
+                    <a href="{% url 'meal' x.title %}" class='linkss'>
+                        <div>
+                            <div class="col" style="max-width:25vw;">
+                                <img class="card-img-top" src={{x.imageUrl}} alt={{x}}>
+                                <div class="card-body">
+                                <h5 class="card-title">{{x}}</h5>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>

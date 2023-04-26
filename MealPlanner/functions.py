@@ -72,6 +72,11 @@ def normalize_units(ingredients):
         else:
             if x[1] == consolidated[x[2]]['measurement']:
                 consolidated[x[2]]['amount'] += float(x[0])
+            elif x[1] == "teaspoon" and consolidated[x[2]]['measurement'] == 'tablespoon':
+                 consolidated[x[2]]['amount'] += float(x[0])*0.33
+            elif x[1] == 'tablespoon' and consolidated[x[2]]['measurement'] == 'teaspoon':
+                 consolidated[x[2]]['amount'] += float(x[0])*3
+
             else:
                 consolidated[x[2]]['amount'] += float(x[0])
                 consolidated[x[2]]['measurement'] += x[1]
@@ -106,8 +111,3 @@ def test_get_meal():
         print(x,meal[x])
 
 # test_get_meal()
-
-# dscq dscv dsic dsaz dsbb dsbc dsid
-# dsbz dsct dsfs dsbn dsbp dsbq dsft
-# dscq dscv dsic dsaz dsbb dsbc dsid
-# dsbz dsct dsfs dsbn dsbp dsbq dsft

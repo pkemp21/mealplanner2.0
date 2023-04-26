@@ -1,9 +1,15 @@
 {% include 'baseLayout.html' %}
 <h1>Plan Page</h1>
-
-{% for x in meals %}
-<p>
-    <a href = "{% url 'delete' x %}">X</a>
-    -- {{x}}
-</p>
-{% endfor %}
+{% if meals|length > 0 %}
+    {% for x in meals %}
+        <a href="{% url 'meal' x.meal.title %}" class='linkss'>
+            <img class="card-img-top" src={{x.meal.imageUrl}} alt={{x}} style="max-width:25vw">
+        </a>
+        <div class="card-body">
+        <a href = {{x.meal.mealUrl}}>{{x}}</a>
+        <a href = "{% url 'delete' x %}">X</a>
+        <br>
+    {% endfor %}
+{% else %}
+    <h3>No meals in plan. Add Some!</h3>
+{% endif %}
